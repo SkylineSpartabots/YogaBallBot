@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team2976.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2976.robot.commands.MoveArm;
+import org.usfirst.frc.team2976.robot.commands.Roll;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -42,6 +43,9 @@ public class OI {
 	public OI() {
 		driveStick = new Joystick(0);
 		new JoystickButton(driveStick, Button.A.getBtnNumber()).whenPressed(new MoveArm(0.7,500));
-		new JoystickButton(driveStick, Button.B.getBtnNumber()).whileHeld(new MoveArm(-0.3,1000));	                      
+		new JoystickButton(driveStick, Button.B.getBtnNumber()).whenPressed(new MoveArm(-0.3,1000));	                      
+		new JoystickButton(driveStick, Button.X.getBtnNumber()).whileHeld(new Roll(0.3));	                      
+		new JoystickButton(driveStick, Button.Y.getBtnNumber()).whileHeld(new Roll(-0.3));	                      
+		
 	}
 }
