@@ -10,14 +10,17 @@ import com.ctre.CANTalon;
  *
  */
 public class Arm extends Subsystem {
-	CANTalon motor1 = new CANTalon(RobotMap.ArmMotor1);
-	CANTalon motor2 = new CANTalon(RobotMap.ArmMotor2);
+	CANTalon motorLeft1 = new CANTalon(RobotMap.LeftArmMotor1);
+	CANTalon motorLeft2 = new CANTalon(RobotMap.LeftArmMotor2);
+	CANTalon motorRight1 = new CANTalon(RobotMap.RightArmMotor1);
+	CANTalon motorRight2 = new CANTalon(RobotMap.RightArmMotor2);
 	
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 	public void move(double power) {
-		motor1.set(power);
-		motor2.set(power);
+		// The left and right sides are reflected
+		motorLeft1.set(power);
+		motorLeft2.set(power);
+		motorRight1.set(-power);
+		motorRight2.set(-power);
 	}
 	
     public void initDefaultCommand() {

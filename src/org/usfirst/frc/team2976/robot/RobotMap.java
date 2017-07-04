@@ -7,17 +7,20 @@ package org.usfirst.frc.team2976.robot;
  * floating around.
  */
 public class RobotMap {
-
-	public static final int RightFrontDriveMotor = 0;
+	
+	// drive train
 	public static final int LeftFrontDriveMotor = 0;
-	public static final int RightBackDriveMotor = 0;
-	public static final int LeftBackDriveMotor = 0;
-	public static final int ArmMotor1 = 0;
-	public static final int ArmMotor2 = 0;
-	public static final int RollerMotor = 0;
+	public static final int LeftBackDriveMotor = 1;
+	public static final int RightFrontDriveMotor = 2;
+	public static final int RightBackDriveMotor = 3;
+	
+	// roller
+	public static final int RollerMotor = 4;
+	
+	// arm
+	public static final int LeftArmMotor1 = 5;
+	public static final int LeftArmMotor2 = 6;
+	public static final int RightArmMotor1 = 7;
+	public static final int RightArmMotor2 = 8;
 
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
 }

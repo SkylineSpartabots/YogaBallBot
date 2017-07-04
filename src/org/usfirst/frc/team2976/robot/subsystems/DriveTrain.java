@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2976.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.RobotDrive;
 
@@ -18,17 +19,17 @@ public class DriveTrain extends Subsystem {
     public RobotDrive m_drive;
     
 	public DriveTrain()	{
-		rightFrontMotor = new CANTalon(RobotMap.RightFrontDriveMotor);
-    	leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
-    	rightBackMotor = new CANTalon(RobotMap.RightBackDriveMotor);
-    	leftBackMotor = new CANTalon(RobotMap.LeftBackDriveMotor);
+		rightFrontMotor = new Victor(RobotMap.RightFrontDriveMotor);
+    	leftFrontMotor = new Victor(RobotMap.LeftFrontDriveMotor);
+    	rightBackMotor = new Victor(RobotMap.RightBackDriveMotor);
+    	leftBackMotor = new Victor (RobotMap.LeftBackDriveMotor);
     	
     	rightFrontMotor.setInverted(true);
     	leftFrontMotor.setInverted(true);
     	rightBackMotor.setInverted(true);
     	leftBackMotor.setInverted(true);
     	
-    	m_drive =  new RobotDrive(leftBackMotor, leftFrontMotor,rightBackMotor, rightFrontMotor); //Robot Drive Class
+    	m_drive =  new RobotDrive(leftBackMotor, leftFrontMotor,rightBackMotor, rightFrontMotor); // Robot Drive Class
     	
     }
     public void initDefaultCommand() {
@@ -37,6 +38,11 @@ public class DriveTrain extends Subsystem {
     public void arcadeDrive(double x, double y){
     	m_drive.arcadeDrive(y, x);
     }
+    
+    /**
+     * @param right The value of the right joystick
+     * @param left The value of the left joystick
+     */
     public void drive(double right, double left)	{
     	m_drive.tankDrive(left, right);
     }

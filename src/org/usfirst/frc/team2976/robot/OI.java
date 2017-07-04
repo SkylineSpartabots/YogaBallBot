@@ -1,12 +1,11 @@
 package org.usfirst.frc.team2976.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import org.usfirst.frc.team2976.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2976.robot.commands.MoveArm;
-import org.usfirst.frc.team2976.robot.commands.Roll;
+import org.usfirst.frc.team2976.robot.commands.RollIn;
+import org.usfirst.frc.team2976.robot.commands.RollOut;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -42,10 +41,10 @@ public class OI {
 	}
 	public OI() {
 		driveStick = new Joystick(0);
-		new JoystickButton(driveStick, Button.A.getBtnNumber()).whenPressed(new MoveArm(0.7,500));
-		new JoystickButton(driveStick, Button.B.getBtnNumber()).whenPressed(new MoveArm(-0.3,1000));	                      
-		new JoystickButton(driveStick, Button.X.getBtnNumber()).whileHeld(new Roll(0.3));	                      
-		new JoystickButton(driveStick, Button.Y.getBtnNumber()).whileHeld(new Roll(-0.3));	                      
-		
+		new JoystickButton(driveStick, Button.A.getBtnNumber()).whenPressed(new MoveArm(0.3, 150)); // down
+        new JoystickButton(driveStick, Button.B.getBtnNumber()).whenPressed(new MoveArm(-1, 200)); // up	                      
+		new JoystickButton(driveStick, Button.X.getBtnNumber()).whenPressed(new RollIn(0.3));
+		new JoystickButton(driveStick, Button.Y.getBtnNumber()).whenPressed(new RollOut(0.3));           		
 	}
 }
+

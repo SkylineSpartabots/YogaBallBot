@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2976.robot.commands;
 
+import org.usfirst.frc.team2976.robot.OI;
 import org.usfirst.frc.team2976.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -7,39 +8,36 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveArm extends Command {
-	private double power;
-	private int duration;
-	private long startTime;
-	
+public class RollOut extends Command {
+	private double power = 0;
+
     /**
-     * @param power
-     * @param duration Duration of arm movement in milliseconds
+     * @param power The speed value between 0 and 1.0 to set.
      */
-    public MoveArm(double power, int duration) {
-    	requires(Robot.arm);
-    	this.power = power;
-    	this.duration = duration;
+    public RollOut(double power) {
+    	requires(Robot.roller);
+    	this.power = -power;
     }
+
     // Called just before this Command runs the first time
     protected void initialize() {
-    	startTime = System.currentTimeMillis();
-    	Robot.arm.move(power);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.move(power);
+    	Robot.roller.roll(power);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (System.currentTimeMillis() - startTime) > duration;
+    	return !Robot.oi.driveStick.getRawButton(OI.Button.Y.getBtnNumber());
     }
+
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.arm.move(0);
+    	Robot.roller.roll(0);
     }
+
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
