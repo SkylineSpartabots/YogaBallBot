@@ -5,41 +5,36 @@ import org.usfirst.frc.team2976.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class RollOut extends Command {
+	
 	private double power = 0;
 
     /**
      * @param power The speed value between 0 and 1.0 to set.
      */
     public RollOut(double power) {
-    	requires(Robot.roller);
+    	requires(Robot.m_roller);
     	this.power = -power;
     }
 
-    // Called just before this Command runs the first time
     protected void initialize() {
     }
 
-    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.roller.roll(power);
+    	Robot.m_roller.roll(power);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return !Robot.oi.driveStick.getRawButton(OI.Button.Y.getBtnNumber());
+    	if(OI.useDancepad) {
+    		return !Robot.m_oi.isDancepadPressed(OI.dancepadCross);
+    	}
+    	return false;
     }
 
-    // Called once after isFinished returns true
     protected void end() {
-    	Robot.roller.roll(0);
+    	Robot.m_roller.roll(0);
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     protected void interrupted() {
     	end();
     }
