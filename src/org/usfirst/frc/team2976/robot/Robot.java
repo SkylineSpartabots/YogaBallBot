@@ -16,7 +16,7 @@ import org.usfirst.frc.team2976.robot.subsystems.Roller;
 
 public class Robot extends TimedRobot {
 	public static OI m_oi;
-	
+
 	public static DriveTrain m_drive;
 	public static Roller m_roller;
 	public static Arm m_arm;
@@ -26,7 +26,6 @@ public class Robot extends TimedRobot {
 		m_drive = new DriveTrain();
 		m_roller = new Roller();
 		m_arm = new Arm();
-		
 		m_oi = new OI();
 	}
 
