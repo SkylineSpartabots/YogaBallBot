@@ -23,7 +23,6 @@ public class OI {
 	public Joystick joystickRight;
 	
 	public static final boolean useDancepad = false;
-	 
 	public static final int dancepadLeftArrow = 1;
 	public static final int dancepadDownArrow = 2;
 	public static final int dancepadUpArrow = 3;
@@ -41,6 +40,15 @@ public class OI {
 	
 	public static final int joystickTrigger = 1;
 	public static final int joystickThumbButton = 2;
+	public static final int joystickLeftYAxis = 1;
+	public static final int joystickRightYAxis = 1;
+
+	public double getJoystickLeftAxis() {
+		return joystickLeft.getRawAxis(joystickLeftYAxis);
+	}
+	public double getJoystickRightAxis() {
+		return joystickRight.getRawAxis(joystickRightYAxis);
+	}
 	
 	public OI() {
 		if(useDancepad) {
@@ -58,7 +66,7 @@ public class OI {
 			joystickLeft = new Joystick(0);
 			joystickRight = new Joystick(1);
 			new JoystickButton(joystickLeft, joystickTrigger).whenPressed(new MoveArm(-0.3, 220)); // down
-			new JoystickButton(joystickRight, joystickTrigger).whenPressed(new MoveArm(1.0, 220)); // up fast
+			new JoystickButton(joystickRight, joystickTrigger).whenPressed(new MoveArm(.9, 220)); // up fast
 			new JoystickButton(joystickLeft, joystickThumbButton).whileHeld(new RollIn(0.4));
 			new JoystickButton(joystickRight, joystickThumbButton).whileHeld(new RollOut(0.4));
 		}
