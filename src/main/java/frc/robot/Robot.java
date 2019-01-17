@@ -1,37 +1,29 @@
+package frc.robot;
 
-package org.usfirst.frc.team2976.robot;
-
-
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
-
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team2976.robot.commands.ExampleCommand;
-import org.usfirst.frc.team2976.robot.subsystems.Arm;
-import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team2976.robot.subsystems.ExampleSubsystem;
-import org.usfirst.frc.team2976.robot.subsystems.Roller;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
+ * functions corresponding to each mode, as described in the TimedRobot
  * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
+ * creating this project, you must also update the build.gradle file in the
+ * project.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
+	public static final ExampleSubsystem m_subsystem = new ExampleSubsystem();
+	public static final DriveTrain m_drivetrain = new DriveTrain();
+	public static final Roller m_roller = new Roller();
+	public static final Arm m_arm = new Arm();
+	public static OI m_oi;
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public static OI oi;
-	public static DriveTrain driveTrain;
-	public static Arm arm;
-	public static Roller roller;
-	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	Command m_autonomousCommand;
+	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -39,15 +31,22 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		driveTrain = new DriveTrain();
-		arm = new Arm();
-		roller = new Roller();
-		oi = new OI();
-		
-		chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		m_oi = new OI();
+		m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+		// chooser.addOption("My Auto", new MyAutoCommand());
+		SmartDashboard.putData("Auto mode", m_chooser);
+	}
 
+	/**
+	 * This function is called every robot packet, no matter the mode. Use
+	 * this for items like diagnostics that you want ran during disabled,
+	 * autonomous, teleoperated and test.
+	 *
+	 * <p>This runs after the mode specific periodic functions, but before
+	 * LiveWindow and SmartDashboard integrated updating.
+	 */
+	@Override
+	public void robotPeriodic() {
 	}
 
 	/**
@@ -57,7 +56,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
 	}
 
 	@Override
@@ -72,13 +70,13 @@ public class Robot extends IterativeRobot {
 	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
 	 * getString code to get the auto name from the text box below the Gyro
 	 *
-	 * You can add additional auto modes by adding additional commands to the
+	 * <p>You can add additional auto modes by adding additional commands to the
 	 * chooser code above (like the commented example) or additional comparisons
 	 * to the switch structure below with additional strings & commands.
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		m_autonomousCommand = m_chooser.getSelected();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -88,12 +86,13 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		if (m_autonomousCommand != null) {
+			m_autonomousCommand.start();
+		}
 	}
 
 	/**
-	 * This function is called periodically during autonomous
+	 * This function is called periodically during autonomous.
 	 */
 	@Override
 	public void autonomousPeriodic() {
@@ -106,12 +105,13 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
+		if (m_autonomousCommand != null) {
+			m_autonomousCommand.cancel();
+		}
 	}
 
 	/**
-	 * This function is called periodically during operator control
+	 * This function is called periodically during operator control.
 	 */
 	@Override
 	public void teleopPeriodic() {
@@ -119,10 +119,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * This function is called periodically during test mode
+	 * This function is called periodically during test mode.
 	 */
 	@Override
 	public void testPeriodic() {
-		LiveWindow.run();
 	}
 }
