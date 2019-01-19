@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -12,13 +14,14 @@ public class Arm extends Subsystem {
 	
 	private WPI_TalonSRX motorLeft1, motorLeft2;
 	private WPI_TalonSRX motorRight1, motorRight2;
+	private DigitalInput limit1;
 
 	public Arm() {
 		motorLeft1 = new WPI_TalonSRX(RobotMap.LEFT_ARM_MOTOR_1);
 		motorLeft2 = new WPI_TalonSRX(RobotMap.LEFT_ARM_MOTOR_2);
 		motorRight1 = new WPI_TalonSRX(RobotMap.RIGHT_ARM_MOTOR_1);
 		motorRight2 = new WPI_TalonSRX(RobotMap.RIGHT_ARM_MOTOR_2);
-
+		limit1 = new DigitalInput(RobotMap.limit1port);
 		motorRight1.setInverted(true);
 		motorRight2.setInverted(true);
 	}
@@ -43,5 +46,8 @@ public class Arm extends Subsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
+	}
+	public boolean isLimitSwitchPressed() {
+		return limit1.get();
 	}
 }

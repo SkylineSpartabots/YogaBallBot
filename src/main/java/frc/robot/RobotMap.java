@@ -23,4 +23,6 @@ public class RobotMap {
 	public static final int RIGHT_ARM_MOTOR_1 = 7;
 	public static final int RIGHT_ARM_MOTOR_2 = 8;
 
+	//limit switch
+	public static final int limit1port= 0;
 }

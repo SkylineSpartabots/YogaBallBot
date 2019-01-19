@@ -39,7 +39,9 @@ public class LowerArm extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return (System.currentTimeMillis() - startTime) > duration;
+		return Robot.m_arm.isLimitSwitchPressed();
+
+	//	return (System.currentTimeMillis() - startTime) > duration;
 	}
 
 	// Called once after isFinished returns true
