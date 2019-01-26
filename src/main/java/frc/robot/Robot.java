@@ -35,6 +35,9 @@ public class Robot extends TimedRobot {
 		m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
 		// chooser.addOption("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putNumber("motoNumber",1);
+		//SmartDashboard.putData("TestMotor", new TestMotor((int)SmartDashboard.getNumber("motonumber",1)));
+	m_arm.resetEncoder();
 	}
 
 	/**

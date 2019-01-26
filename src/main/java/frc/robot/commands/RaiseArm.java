@@ -30,6 +30,7 @@ public class RaiseArm extends Command {
 	SmartDashboard.putBoolean("Limit switch is pressed", Robot.m_arm.isLimitSwitchPressed());
 		startTime = System.currentTimeMillis();
 		Robot.m_arm.move(power);
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -44,7 +45,9 @@ public class RaiseArm extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return (System.currentTimeMillis() - startTime) > duration;
+		return (System.currentTimeMillis() - startTime) > duration
+	||  Robot.m_arm.getEncoderRawDistance()<=-400
+		;
 	}
 
 	// Called once after isFinished returns true

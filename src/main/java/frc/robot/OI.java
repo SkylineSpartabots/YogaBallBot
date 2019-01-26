@@ -15,9 +15,11 @@ public class OI {
 		controller = new DancePad(0);
 
 		controller.getLowerArmButton().whenPressed(new LowerArm(0.2, 150));
-		controller.getRaiseArmButton().whenPressed(new RaiseArm(0.5, 150)); // shoot
-		controller.getRollInButton().whenPressed(new RollIn(0.3));
-		controller.getRollOutButton().whenPressed(new RollOut(0.3));
+		controller.getRaiseArmButton().whenPressed(new RaiseArm(0.9, 200)); // shoot
+		controller.getRollInButton().whenPressed(new RollIn(0.9));
+		controller.getRollOutButton().whenPressed(new RollOut(0.9));
+
+		//((DancePad) controller).getSelectButton().whenPressed(new TestMotor(1));
 	}
 
 	/**
