@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -11,12 +12,14 @@ import frc.robot.RobotMap;
  * The drive train with methods for driving the robot.
  */
 public class Arm extends Subsystem {
-	
+
 	private WPI_TalonSRX motorLeft1, motorLeft2;
 	private WPI_TalonSRX motorRight1, motorRight2;
 	private DigitalInput limit1;
+	private Encoder armEncoder;
 
 	public Arm() {
+		armEncoder = new Encoder(7, 8);
 		motorLeft1 = new WPI_TalonSRX(RobotMap.LEFT_ARM_MOTOR_1);
 		motorLeft2 = new WPI_TalonSRX(RobotMap.LEFT_ARM_MOTOR_2);
 		motorRight1 = new WPI_TalonSRX(RobotMap.RIGHT_ARM_MOTOR_1);
@@ -24,8 +27,9 @@ public class Arm extends Subsystem {
 		limit1 = new DigitalInput(RobotMap.limit1port);
 		motorRight1.setInverted(true);
 		motorRight2.setInverted(true);
+
 	}
-	
+
 	/**
 	 * Set the power of the arm motors.
 	 * 
@@ -42,12 +46,26 @@ public class Arm extends Subsystem {
 		motorRight2.set(power);
 	}
 
+	public double getEncoderRawDistance() {
+
+		return armEncoder.getDistance();
+
+	}
+
+	public void resetEncoder() {
+
+		armEncoder.reset();
+
+	}
+
 	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 	}
+
 	public boolean isLimitSwitchPressed() {
+		System.out.println(limit1.get());
 		return limit1.get();
 	}
 }
