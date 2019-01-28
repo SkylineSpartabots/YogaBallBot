@@ -27,6 +27,7 @@ public class DancePad implements ControlBoard {
 
 	private JoystickButton lowerArmButton, raiseArmButton, rollInButton, rollOutButton;
 	private JoystickButton leftButton, downButton, upButton, rightButton;
+	private JoystickButton selectButton, startButton;
 
 	private Joystick dancepad;
 
@@ -42,6 +43,9 @@ public class DancePad implements ControlBoard {
 		downButton = new JoystickButton(dancepad, BUTTON_DOWN);
 		upButton = new JoystickButton(dancepad, BUTTON_UP);
 		rightButton = new JoystickButton(dancepad, BUTTON_RIGHT);
+
+		selectButton = new JoystickButton(dancepad, BUTTON_SELECT);
+		startButton = new JoystickButton(dancepad, BUTTON_START);
 	}
 
 	@Override
@@ -62,6 +66,14 @@ public class DancePad implements ControlBoard {
 	@Override
 	public JoystickButton getRollOutButton() {
 		return rollOutButton;
+	}
+
+	public JoystickButton getStartButton() {
+		return startButton;
+	}
+	
+	public JoystickButton getSelectButton() {
+		return selectButton;
 	}
 	
 	/** 
@@ -92,5 +104,5 @@ public class DancePad implements ControlBoard {
 			return 0.0;
 		}
 		return isRight ? 1.0 : -1.0;
-	}	
+	}
 }

@@ -11,21 +11,17 @@ public class RaiseArm extends Command {
 	private double power;
 	private int duration;
 	private long startTime;
-
-	/**
-	 * @param power of the arm motors, between 0 and 1
-	 * @param duration of raising the arm in milliseconds
-	 */
-	public RaiseArm(double power, int duration) {
+	
+	public RaiseArm() {
 		requires(Robot.m_arm);
-
-		this.power = -power;
-		this.duration = duration;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		this.power = -Robot.getRaiseArmPower();
+		this.duration = Robot.getRaiseArmDuration();
+
 		startTime = System.currentTimeMillis();
 		Robot.m_arm.move(power);
 	}
@@ -39,7 +35,7 @@ public class RaiseArm extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return (System.currentTimeMillis() - startTime) > duration;
+		return (System.currentTimeMillis() - startTime) > duration || Robot.m_arm.isArmUp();
 	}
 
 	// Called once after isFinished returns true

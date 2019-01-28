@@ -1,6 +1,8 @@
 package frc.robot;
 
 import frc.robot.controllers.*;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.*;
 
 /**
@@ -14,10 +16,18 @@ public class OI {
 	public OI() {
 		controller = new DancePad(0);
 
-		controller.getLowerArmButton().whenPressed(new LowerArm(0.2, 150));
-		controller.getRaiseArmButton().whenPressed(new RaiseArm(0.5, 150)); // shoot
-		controller.getRollInButton().whenPressed(new RollIn(0.3));
-		controller.getRollOutButton().whenPressed(new RollOut(0.3));
+		final Command lowerArmCommand = new LowerArm(0.2);
+		final Command raiseArmCommand = new RaiseArm(); // shoot
+
+		controller.getLowerArmButton().whenPressed(lowerArmCommand);
+		controller.getRaiseArmButton().whenPressed(raiseArmCommand);
+		controller.getRollInButton().whenPressed(new RollIn(0.9, true));
+		controller.getRollOutButton().whenPressed(new RollOut(0.9, true));
+
+		SmartDashboard.putData("Lower Arm", lowerArmCommand);
+		SmartDashboard.putData("Raise Arm", raiseArmCommand);
+		SmartDashboard.putData("Roll In", new RollIn(0.9, false));
+		SmartDashboard.putData("Roll Out", new RollOut(0.9, false));
 	}
 
 	/**

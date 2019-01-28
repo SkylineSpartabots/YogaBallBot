@@ -9,24 +9,19 @@ import frc.robot.Robot;
 public class LowerArm extends Command {
 
 	private double power;
-	private int duration;
-	private long startTime;
 
 	/**
 	 * @param power of the arm motors, between 0 and 1
-	 * @param duration of raising the arm in milliseconds
 	 */
-	public LowerArm(double power, int duration) {
+	public LowerArm(double power) {
 		requires(Robot.m_arm);
 
 		this.power = power;
-		this.duration = duration;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		startTime = System.currentTimeMillis();
 		Robot.m_arm.move(power);
 	}
 
@@ -39,7 +34,7 @@ public class LowerArm extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return (System.currentTimeMillis() - startTime) > duration;
+		return Robot.m_arm.isLimitSwitchPressed();
 	}
 
 	// Called once after isFinished returns true

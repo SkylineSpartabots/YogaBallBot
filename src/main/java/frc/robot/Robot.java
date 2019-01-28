@@ -1,11 +1,15 @@
 package frc.robot;
 
+import java.util.Map;
+
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -16,43 +20,101 @@ import frc.robot.subsystems.*;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static final ExampleSubsystem m_subsystem = new ExampleSubsystem();
 	public static final DriveTrain m_drivetrain = new DriveTrain();
 	public static final Roller m_roller = new Roller();
 	public static final Arm m_arm = new Arm();
 	public static OI m_oi;
 
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	// Shuffleboard inputs
+	private static final ShuffleboardTab TAB = Shuffleboard.getTab("Yoga");
+	private static NetworkTableEntry driveSwitch, driveSpeed, raiseArmPower, raiseArmDuration;
 
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * This function is run when the robot is first started up and should be used
+	 * for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-		// chooser.addOption("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+
+		// Shuffleboard inputs
+		driveSwitch = TAB.add("Enable drive", true).getEntry();
+		driveSpeed = TAB.add("Drive speed", 0).withWidget(BuiltInWidgets.kNumberSlider)
+				.withProperties(Map.of("min", 0, "max", 1)).getEntry();
+		raiseArmPower = TAB.add("Shoot power", 0).withProperties(Map.of("min", 0.8, "max", 1))
+				.withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+		raiseArmDuration = TAB.add("Shoot duration (ms)", 0).withProperties(Map.of("min", 100, "max", 400))
+				.withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+
+		// Stream camera to Shuffleboard
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	/**
-	 * This function is called every robot packet, no matter the mode. Use
-	 * this for items like diagnostics that you want ran during disabled,
-	 * autonomous, teleoperated and test.
+	 * @return true if drive is enabled, else false
+	 */
+	public static boolean isDriveEnabled() {
+		if (driveSwitch == null) {
+			return false;
+		}
+		return driveSwitch.getBoolean(false);
+	}
+
+	/**
+	 * Returns percentage speed that robot should be driving at.
+	 * 
+	 * @return speed from 0.0 to 1.0
+	 */
+	public static double getDriveSpeed() {
+		if (driveSpeed == null || !isDriveEnabled()) {
+			return 0;
+		}
+		return driveSpeed.getDouble(0);
+	}
+
+	/**
+	 * Returns the percentage power that arm should shoot at.
+	 * 
+	 * @return power from 0.0 to 1.0
+	 */
+	public static double getRaiseArmPower() {
+		if (raiseArmPower == null) {
+			return 0.95;
+		}
+		return raiseArmPower.getDouble(0);
+	}
+
+	/**
+	 * Returns the duration in ms that the arm should shoot for
+	 * 
+	 * @return duration from 100 ms to 400 ms
+	 */
+	public static int getRaiseArmDuration() {
+		if (raiseArmDuration == null) {
+			return 250;
+		}
+		return (int) raiseArmDuration.getDouble(100);
+	}
+
+	/**
+	 * This function is called every robot packet, no matter the mode. Use this for
+	 * items like diagnostics that you want ran during disabled, autonomous,
+	 * teleoperated and test.
 	 *
-	 * <p>This runs after the mode specific periodic functions, but before
-	 * LiveWindow and SmartDashboard integrated updating.
+	 * <p>
+	 * This runs after the mode specific periodic functions, but before LiveWindow
+	 * and SmartDashboard integrated updating.
 	 */
 	@Override
 	public void robotPeriodic() {
+		SmartDashboard.putNumber("Arm encoder", m_arm.getArmUpPercentage() * 100);
+		SmartDashboard.putBoolean("Arm limit switch", m_arm.isLimitSwitchPressed());
 	}
 
 	/**
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
+	 * This function is called once each time the robot enters Disabled mode. You
+	 * can use it to reset any subsystem information you want to clear when the
+	 * robot is disabled.
 	 */
 	@Override
 	public void disabledInit() {
@@ -63,32 +125,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
-	 */
-	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
-		}
 	}
 
 	/**
@@ -101,13 +138,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
-		}
+		// Robot should always have the arm down before starting teleopxx
+		m_arm.resetEncoder();
 	}
 
 	/**
