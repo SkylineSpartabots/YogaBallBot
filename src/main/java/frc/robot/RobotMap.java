@@ -15,14 +15,16 @@ public class RobotMap {
 	public static final int RIGHT_BACK_DRIVE_MOTOR = 3;
 	
 	// roller Victor
-	public static final int ROLLER_MOTOR = 4;
+	public static final int ROLLER_MOTOR = 2;
 	
 	// arm CANTalons
 	public static final int LEFT_ARM_MOTOR_1 = 5;
 	public static final int LEFT_ARM_MOTOR_2 = 6;
 	public static final int RIGHT_ARM_MOTOR_1 = 7;
 	public static final int RIGHT_ARM_MOTOR_2 = 8;
-
-	//limit switch
-	public static final int limit1port= 0;
+	// arm limit switch
+	public static final int ARM_LIMIT_SWITCH = 0;
+	// arm encoder
+	public static final int ARM_ENCODER_A = 7;
+	public static final int ARM_ENCODER_B = 8;
 }

@@ -22,7 +22,7 @@ public class DriveTrain extends Subsystem {
 		final SpeedController leftBackMotor = new Victor (RobotMap.LEFT_BACK_DRIVE_MOTOR);
 
 		final SpeedControllerGroup leftSide = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
-		leftSide.setInverted(true);
+		// leftSide.setInverted(true);
 		final SpeedControllerGroup rightSide = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
 		
 		m_drive = new DifferentialDrive(leftSide, rightSide);

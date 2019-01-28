@@ -68,6 +68,10 @@ public class DancePad implements ControlBoard {
 		return rollOutButton;
 	}
 
+	public JoystickButton getStartButton() {
+		return startButton;
+	}
+	
 	public JoystickButton getSelectButton() {
 		return selectButton;
 	}

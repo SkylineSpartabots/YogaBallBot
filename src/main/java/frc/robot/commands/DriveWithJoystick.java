@@ -26,9 +26,12 @@ public class DriveWithJoystick extends Command {
 	 */
 	@Override
 	protected void execute() {
-		final double xSpeed = Robot.m_oi.getJoystickVertical();
-		final double zRotation = Robot.m_oi.getJoystickHorizontal();
-		// Robot.m_drivetrain.arcadeDrive(xSpeed, zRotation);
+		if (Robot.isDriveEnabled()) {
+			final double xSpeed = Robot.m_oi.getJoystickVertical();
+			final double zRotation = Robot.m_oi.getJoystickHorizontal();
+			final double driveSpeed = Robot.getDriveSpeed();
+			Robot.m_drivetrain.arcadeDrive(xSpeed * driveSpeed, zRotation * driveSpeed);
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
