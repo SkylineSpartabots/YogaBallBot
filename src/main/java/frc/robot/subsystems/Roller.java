@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Victor;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -9,10 +10,10 @@ import frc.robot.RobotMap;
  */
 public class Roller extends Subsystem {
 
-	private Victor rollerMotor;
+	private WPI_TalonSRX rollerMotor;
 
 	public Roller() {
-		rollerMotor = new Victor(RobotMap.ROLLER_MOTOR);
+		rollerMotor = new WPI_TalonSRX(RobotMap.ROLLER_MOTOR);
 	}
 	
 	/**

@@ -9,17 +9,17 @@ package frc.robot;
 public class RobotMap {
 
 	// drive train Victors
-	public static final int LEFT_FRONT_DRIVE_MOTOR = 0;
-	public static final int LEFT_BACK_DRIVE_MOTOR = 4;
-	public static final int RIGHT_FRONT_DRIVE_MOTOR = 1;
-	public static final int RIGHT_BACK_DRIVE_MOTOR = 3;
+	public static final int LEFT_FRONT_DRIVE_MOTOR = 1;
+	public static final int LEFT_BACK_DRIVE_MOTOR = 2;
+	public static final int RIGHT_FRONT_DRIVE_MOTOR = 5;
+	public static final int RIGHT_BACK_DRIVE_MOTOR = 6;
 	
 	// roller Victor
 	public static final int ROLLER_MOTOR = 2;
 	
 	// arm CANTalons
-	public static final int LEFT_ARM_MOTOR_1 = 5;
-	public static final int LEFT_ARM_MOTOR_2 = 6;
+	public static final int LEFT_ARM_MOTOR_1 = 3;
+	public static final int LEFT_ARM_MOTOR_2 = 4;
 	public static final int RIGHT_ARM_MOTOR_1 = 7;
 	public static final int RIGHT_ARM_MOTOR_2 = 8;
 	// arm limit switch

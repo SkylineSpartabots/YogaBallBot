@@ -1,12 +1,11 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveWithJoystick;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
  * The drive train with methods for driving the robot.
@@ -14,18 +13,21 @@ import frc.robot.commands.DriveWithJoystick;
 public class DriveTrain extends Subsystem {
 
 	private DifferentialDrive m_drive;
+	private WPI_TalonSRX rightFrontMotor, rightBackMotor;
+	private WPI_TalonSRX leftFrontMotor, leftBackMotor;
+	private SpeedControllerGroup left, right;
+
 
 	public DriveTrain() {
-		final SpeedController rightFrontMotor = new Victor(RobotMap.RIGHT_FRONT_DRIVE_MOTOR);
-		final SpeedController leftFrontMotor = new Victor(RobotMap.LEFT_FRONT_DRIVE_MOTOR);
-		final SpeedController rightBackMotor = new Victor(RobotMap.RIGHT_BACK_DRIVE_MOTOR);
-		final SpeedController leftBackMotor = new Victor (RobotMap.LEFT_BACK_DRIVE_MOTOR);
+		rightFrontMotor = new WPI_TalonSRX(RobotMap.RIGHT_FRONT_DRIVE_MOTOR);
+		leftFrontMotor = new WPI_TalonSRX(RobotMap.LEFT_FRONT_DRIVE_MOTOR);
+		rightBackMotor = new WPI_TalonSRX(RobotMap.RIGHT_BACK_DRIVE_MOTOR);
+		leftBackMotor = new WPI_TalonSRX(RobotMap.LEFT_BACK_DRIVE_MOTOR);
 
-		final SpeedControllerGroup leftSide = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
-		// leftSide.setInverted(true);
-		final SpeedControllerGroup rightSide = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
+		left = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
+		right = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
 		
-		m_drive = new DifferentialDrive(leftSide, rightSide);
+		m_drive = new DifferentialDrive(left, right);
 	}
 
 	@Override
