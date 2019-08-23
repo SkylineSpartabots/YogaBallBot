@@ -140,6 +140,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		// Robot should always have the arm down before starting teleopxx
 		m_arm.resetEncoder();
+		//m_drivetrain.tankDrive(-.1, .1);
 	}
 
 	/**

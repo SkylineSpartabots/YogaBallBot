@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 /**
@@ -26,12 +27,19 @@ public class DriveWithJoystick extends Command {
 	 */
 	@Override
 	protected void execute() {
-		if (Robot.isDriveEnabled()) {
-			final double xSpeed = Robot.m_oi.getJoystickVertical();
-			final double zRotation = Robot.m_oi.getJoystickHorizontal();
-			final double driveSpeed = Robot.getDriveSpeed();
-			Robot.m_drivetrain.arcadeDrive(xSpeed * driveSpeed, zRotation * driveSpeed);
+		double drivePower, turnPower;
+
+		drivePower = Robot.m_oi.gamepad.getRawAxis(OI.Axis.LY.getAxisNumber());
+		if(Math.abs(drivePower) < 0.05 && Robot.isDriveEnabled()) {
+			drivePower = Robot.m_oi.dancePad.getJoystickVertical() * Robot.getDriveSpeed();
 		}
+
+		turnPower = Robot.m_oi.gamepad.getRawAxis(OI.Axis.RX.getAxisNumber());
+		if(Math.abs(turnPower) < 0.05 && Robot.isDriveEnabled()) {
+			turnPower = Robot.m_oi.dancePad.getJoystickHorizontal() * Robot.getDriveSpeed();
+		}
+
+		Robot.m_drivetrain.arcadeDrive(drivePower, turnPower);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

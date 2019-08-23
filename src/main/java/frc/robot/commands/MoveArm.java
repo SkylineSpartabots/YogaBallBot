@@ -1,43 +1,49 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * Raises the bot's arm with the specified power.
+ * Lowers the bot's arm with the specified power.
  */
-public class RaiseArm extends Command {
+public class MoveArm extends Command {
 
 	private double power;
-	private int duration;
-	private long startTime;
-	
-	public RaiseArm() {
+	private double duration;
+	private Timer timer;
+
+	/**
+	 * @param power of the arm motors, between 0 and 1
+	 */
+	public MoveArm(double power, double duration) {
 		requires(Robot.m_arm);
+		this.duration = duration;
+		this.power = power;
+		timer = new Timer();
+		
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		this.power = -Robot.getRaiseArmPower();
-		this.duration = Robot.getRaiseArmDuration();
-
-		startTime = System.currentTimeMillis();
+		Robot.m_arm.move(0);
+		timer.reset();
+		timer.start();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		if(Robot.m_roller.isIntakeExtended()) {
-			Robot.m_arm.move(power);
-		}
+		
+		Robot.m_arm.move(power);
 		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return (System.currentTimeMillis() - startTime) > duration || Robot.m_arm.isArmUp() || !Robot.m_roller.isIntakeExtended();
+		return timer.get() >= duration;
 	}
 
 	// Called once after isFinished returns true

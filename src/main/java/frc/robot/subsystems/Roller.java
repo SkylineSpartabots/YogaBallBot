@@ -1,19 +1,23 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.IntakeControl;
 
 /**
  * The drive train with methods for driving the robot.
  */
 public class Roller extends Subsystem {
 
-	private WPI_TalonSRX rollerMotor;
+	private WPI_VictorSPX rollerMotor;
+	private Solenoid rollerSolenoid;
 
 	public Roller() {
-		rollerMotor = new WPI_TalonSRX(RobotMap.ROLLER_MOTOR);
+		rollerMotor = new WPI_VictorSPX(RobotMap.ROLLER_MOTOR);
+		rollerSolenoid = new Solenoid(RobotMap.ROLLER_SOLENOID);
 	}
 	
 	/**
@@ -23,15 +27,24 @@ public class Roller extends Subsystem {
 	 * @throws IllegalArgumentException if not -1 < power < 1
 	 */
 	public void roll(double power) {
-		if (power < -1 || power > 1) {
-			throw new IllegalArgumentException("Power must be between -1 and 1.");
-		}
 		rollerMotor.set(power);
+	}
+
+	public void extendIntake() {
+		rollerSolenoid.set(true);
+	}
+
+	public void retractIntake() {
+		rollerSolenoid.set(false);
+	}
+
+	public boolean isIntakeExtended() {
+		return rollerSolenoid.get();
 	}
 
 	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
+		setDefaultCommand(new IntakeControl());
 	}
 }

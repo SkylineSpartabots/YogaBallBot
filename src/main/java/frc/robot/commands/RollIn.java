@@ -9,10 +9,7 @@ import frc.robot.Robot;
 public class RollIn extends Command {
 
 	private double power;
-	private boolean usingController;
-	
-	private long startTime;
-	private static final int DURATION = 900;
+
 
 	/**
 	 * If usingController is true, the command ends when the button is released.
@@ -22,17 +19,16 @@ public class RollIn extends Command {
 	 * @param usingController whether or not the command was started by the
 	 *                        controller
 	 */
-	public RollIn(double power, boolean usingController) {
+	public RollIn(double power) {
 		requires(Robot.m_roller);
 
 		this.power = power;
-		this.usingController = usingController;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		startTime = System.currentTimeMillis();
+		Robot.m_roller.extendIntake();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -44,8 +40,7 @@ public class RollIn extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return (usingController && !Robot.m_oi.controller.getRollInButton().get())
-				|| (!usingController && (System.currentTimeMillis() - startTime) > DURATION);
+		return !Robot.m_oi.dancePad.getRollInButton().get();
 	}
 
 	// Called once after isFinished returns true

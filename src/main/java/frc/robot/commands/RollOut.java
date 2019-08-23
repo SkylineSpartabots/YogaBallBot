@@ -9,11 +9,6 @@ import frc.robot.Robot;
 public class RollOut extends Command {
 
 	private double power;
-	private boolean usingController;
-	
-	private long startTime;
-	private static final int DURATION = 800;
-
 	/**
 	 * If usingController is true, the command ends when the button is released.
 	 * Otherwise, the roll out command stops after 0.8s.
@@ -22,17 +17,16 @@ public class RollOut extends Command {
 	 * @param usingController whether or not the command was started by the
 	 *                        controller
 	 */
-	public RollOut(double power, boolean usingController) {
+	public RollOut(double power) {
 		requires(Robot.m_roller);
 
 		this.power = -power;
-		this.usingController = usingController;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		startTime = System.currentTimeMillis();
+		Robot.m_roller.extendIntake();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -44,8 +38,7 @@ public class RollOut extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return (usingController && !Robot.m_oi.controller.getRollOutButton().get())
-				|| (!usingController && (System.currentTimeMillis() - startTime) > DURATION);
+		return !Robot.m_oi.dancePad.getRollOutButton().get();
 	}
 
 	// Called once after isFinished returns true
