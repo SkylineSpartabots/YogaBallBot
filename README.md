@@ -54,3 +54,8 @@ We use only one 3rd party library:
 [ctre-phoenix]: http://www.ctr-electronics.com/control-system/hro.html#product_tabs_technical_resources
 [good-commit-message]: https://juffalow.com/other/write-good-git-commit-message
 [javadoc-comment]: https://en.wikipedia.org/wiki/Javadoc#Structure_of_a_Javadoc_comment
+
+##Current Status
+This bot has been retired as of 8/24/2019 due to weakness of motors, gearboxes, structural integrity, and electronics after years of use. A new version of the "Yoga Ball Bot" should hopefully be made soon. This repository is still a valuable resource for learning the FRC control system. A version of this program will also be made using the "new control system" to serve as an example.
+
+Thank you Yoga Ball Bot for your years of service and may your soul rest in pieces.
